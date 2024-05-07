@@ -1,3 +1,48 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:workmanager/workmanager.dart';
+
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    // Send the position data to your API
+    print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
+    return Future.value(true);
+  });
+}
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Workmanager().initialize(callbackDispatcher);
+  Workmanager().registerPeriodicTask(
+    "1",
+    "backgroundTask",
+    frequency: const Duration(minutes: 15), // Adjust frequency as needed
+  );
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Location Update Demo',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Location Update Demo'),
+        ),
+        body: const Center(
+          child: Text('Location Update Demo'),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+/*
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -107,3 +152,4 @@ class TabInfo {
   final String label;
   final String description;
 }
+*/
