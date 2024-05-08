@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   flutter_animate: ^4.4.0
 
 #lottie:
